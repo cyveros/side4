@@ -26,7 +26,7 @@ class App extends Component {
     }
 
     return (
-            <table cellPadding={0} cellSpacing={0} style={{borderCollapse: 'collapse'}}>
+            <table style={{borderCollapse: 'collapse'}}>
               <thead>
                 <tr>
                   <th>date</th>

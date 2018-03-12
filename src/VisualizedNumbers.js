@@ -1,53 +1,50 @@
 import React from 'react';
 
+import SelectionPattern from './SelectionPattern';
+
 export default class VisualizedNumbers extends React.Component {
+  sp: SelectionPattern;
+
   constructor(props) {
     super(props);
 
-    this.state = {
-      indices: []
-    };
+    this.sp = new SelectionPattern();
+    this.sp.withOffsets([0, 0, 0]);
   }
 
   render() {
-    const {numbers, size = 5, separation = 3} = this.props;
+    const {numbers, enableOccurence = false} = this.props;
     let indices = Array(70).fill(0);
 
     numbers.forEach((number) => {
       indices[number - 1] = 1;
     });
 
+    const occurence: number = 0;
+    
+    if (enableOccurence) {
+      numbers.reduce(
+        (accumulatedOccurence: number, current: number, currentIndex): number => {
+          if (current === 1 && this.sp.sliceTest(numbers, currentIndex)) {
+            return accumulatedOccurence + 1;
+          }
+
+          return accumulatedOccurence;
+      }, 0);
+    }
+
+
     return (
-      indices.length > 0 && <svg width={70 * (size + separation + 2)} height={size + 11} version={'1.1'} xmlns={"http://www.w3.org/2000/svg"}>
+      <div className="align-middle">
         {indices.map((mark, index) => {
           return (
-            mark > 0 && <rect
-              key={index}
-              width={size}
-              height={size}
-              x={index * (size + 2) + 1}
-              y={1}
-              stroke={'black'}
-              strokeWidth={1}
-              fill={'black'}
-            />
+            <span key={index} className="text-dot align-middle" style={{
+              marginRight: (index + 1) % 5 ? '0.08rem' : '0.8rem' 
+            }}>{mark > 0 ? '●' : '○'}</span>
           );
         })}
-        {indices.map((mark, index) => {
-          return (
-            <line
-              key={index}
-              x1={index * (size + 2)}
-              y1={0}
-              x2={index * (size + 2)}
-              y2={size + (index % 5 !== 0 ? 1 : 11)}
-              stroke={index % 5 !== 0 ? 'gray' : 'black'}
-              strokeWidth={1}
-            />
-          );
-        })}
-        <line x1={0} x2={70 * (size + separation + 2)} y1={size + 1} y2={size + 1} stroke={'black'} strokeWidth={1}/>
-      </svg>
+        {enableOccurence ? (' ' + occurence) : ''}
+      </div>
     );
   }
 }

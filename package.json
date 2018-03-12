@@ -18,5 +18,12 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3000/"
+  "proxy": "http://localhost:3000/",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-decorators": "^6.24.1",
+    "babel-preset-flow": "^6.23.0",
+    "core-decorators": "^0.20.0",
+    "flow-bin": "^0.67.1"
+  }
 }
